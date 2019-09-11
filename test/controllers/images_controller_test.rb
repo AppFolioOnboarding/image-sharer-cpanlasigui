@@ -30,4 +30,10 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_select 'img[class="js-image"]', count: 1
   end
+
+  test 'index' do
+    get images_path
+
+    assert_response :success
+  end
 end
