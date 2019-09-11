@@ -1,1 +1,3 @@
-<body>index</body>
+<% @images.each do |image| %>
+  <%=  image_tag(image.url, class: 'index-image') %>
+<% end  %>
