@@ -6,7 +6,7 @@ class ImagesController < ApplicationController
   end
 
   def create
-    @image = Image.new(url: params[:image][:url])
+    @image = Image.new(image_params)
     if @image.save
       redirect_to image_path(@image)
     else
@@ -20,5 +20,9 @@ class ImagesController < ApplicationController
 
   def index
     @images = Image.order(created_at: :desc)
+  end
+
+  def image_params
+    params.require(:image).permit(:url, :tag_list)
   end
 end

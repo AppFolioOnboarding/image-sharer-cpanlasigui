@@ -1,5 +1,6 @@
 <%= link_to('Add image', new_image_path) %>
 <br/>
 <% @images.each do |image| %>
-  <%=  image_tag(image.url, class: 'index-image') %>
+  <%= image_tag(image.url, class: 'index-image') %>
+  <%= content_tag( :p, image.tag_list) %>
 <% end  %>
