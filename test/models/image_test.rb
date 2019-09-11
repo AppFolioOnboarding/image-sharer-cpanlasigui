@@ -15,4 +15,11 @@ class ImageTest < ActiveSupport::TestCase
     refute_predicate image, :valid?
     assert_equal ['Not an image url'], image.errors.messages[:url]
   end
+
+  test 'accepts tags' do
+    image = Image.new(url: 'https://image.jpg')
+    image.tag_list.add('test')
+
+    assert_predicate image, :valid?
+  end
 end
