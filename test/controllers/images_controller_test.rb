@@ -30,4 +30,17 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_select 'img[class="js-image"]', count: 1
   end
+
+  test 'index' do
+    image1 = Image.create!(url: 'https://goodurl1.jpg')
+    image2 = Image.create!(url: 'https://goodurl2.jpg')
+
+    get images_path
+
+    assert_response :success
+    assert_select 'img[class="index-image"]' do |images|
+      assert_equal image2.url, images[0]['src']
+      assert_equal image1.url, images[1]['src']
+    end
+  end
 end

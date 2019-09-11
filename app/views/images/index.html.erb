@@ -1,0 +1,5 @@
+<%= link_to('Add image', new_image_path) %>
+<br/>
+<% @images.each do |image| %>
+  <%=  image_tag(image.url, class: 'index-image') %>
+<% end  %>
