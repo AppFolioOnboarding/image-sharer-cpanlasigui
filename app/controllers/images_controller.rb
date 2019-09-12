@@ -18,6 +18,11 @@ class ImagesController < ApplicationController
     @image = Image.find(params[:id])
   end
 
+  def destroy
+    Image.destroy(params[:id])
+    redirect_to images_path
+  end
+
   def index
     @images = if params[:tag].present?
                 Image.tagged_with(params[:tag]).order(created_at: :desc)

@@ -31,6 +31,18 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
     assert_select 'img[class="js-image"]', count: 1
   end
 
+  test 'delete successful' do
+    cat_image = Image.create!(url: 'https://goodurl1.jpg', tag_list: 'cat')
+    dog_image = Image.create!(url: 'https://goodurl2.jpg', tag_list: 'dog')
+
+    assert_difference 'Image.count', -1 do
+      delete image_path(cat_image)
+    end
+    assert_redirected_to images_path
+    assert Image.exists?(dog_image.id)
+    refute Image.exists?(cat_image.id)
+  end
+
   test 'index images without tags' do
     image1 = Image.create!(url: 'https://goodurl1.jpg')
     image2 = Image.create!(url: 'https://goodurl2.jpg')
