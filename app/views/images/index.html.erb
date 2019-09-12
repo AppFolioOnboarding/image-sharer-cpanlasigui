@@ -1,6 +1,11 @@
 <%= link_to('Add image', new_image_path) %>
 <br/>
+<%= content_tag(:p, 'Filter images by tag')%>
+<% @tags.each do |tag| %>
+  <%= link_to(tag, images_path(tag: tag), class: 'js-index-link') %>
+<% end %>
+<br/>
 <% @images.each do |image| %>
   <%= image_tag(image.url, class: 'index-image') %>
-  <%= content_tag( :p, image.tag_list) %>
+  <%= content_tag(:p, image.tag_list) %>
 <% end  %>

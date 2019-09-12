@@ -31,7 +31,7 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
     assert_select 'img[class="js-image"]', count: 1
   end
 
-  test 'index' do
+  test 'index images without tags' do
     image1 = Image.create!(url: 'https://goodurl1.jpg')
     image2 = Image.create!(url: 'https://goodurl2.jpg')
 
@@ -42,5 +42,31 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
       assert_equal image2.url, images[0]['src']
       assert_equal image1.url, images[1]['src']
     end
+  end
+
+  test 'index images with tags' do
+    cat_image = Image.create!(url: 'https://goodurl1.jpg', tag_list: 'cat')
+    Image.create!(url: 'https://goodurl2.jpg', tag_list: 'dog')
+
+    get images_path(tag: 'cat')
+
+    assert_response :success
+    assert_select 'img[class="index-image"]' do |images|
+      assert_equal 1, images.length
+      assert_equal cat_image.url, images[0]['src']
+    end
+    assert_select 'a[class="js-index-link"]', count: 2
+    assert_select 'a[href="/images?tag=cat"]', count: 1
+    assert_select 'a[href="/images?tag=dog"]', count: 1
+  end
+
+  test 'index tag with no related images' do
+    Image.create!(url: 'https://goodurl1.jpg', tag_list: 'cat')
+    Image.create!(url: 'https://goodurl2.jpg', tag_list: 'dog')
+
+    get images_path(tag: 'lizard')
+
+    assert_response :success
+    assert_select 'img[class="index-image"]', count: 0
   end
 end

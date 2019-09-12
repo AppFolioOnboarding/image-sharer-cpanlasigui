@@ -19,10 +19,20 @@ class ImagesController < ApplicationController
   end
 
   def index
-    @images = Image.order(created_at: :desc)
+    @images = if params[:tag].present?
+                Image.tagged_with(params[:tag]).order(created_at: :desc)
+              else
+                Image.order(created_at: :desc)
+              end
+
+    @tags = all_image_tags
   end
 
   def image_params
     params.require(:image).permit(:url, :tag_list)
+  end
+
+  def all_image_tags
+    Image.tag_counts.map(&:name)
   end
 end
