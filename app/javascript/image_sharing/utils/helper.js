@@ -1,7 +1,5 @@
 /* eslint-disable */
 
-import 'whatwg-fetch';
-
 const HEADERS = {
   Accept: 'application/json',
   'Content-Type': 'application/json',
